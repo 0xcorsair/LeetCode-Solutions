@@ -1,0 +1,76 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+ ListNode* newNode (int valNew)
+ {
+     ListNode* temp = new ListNode;
+     temp -> val = valNew;
+     temp -> next = NULL;
+     return temp;
+ }
+
+ void insert(ListNode** root, int item)
+ {
+     ListNode* temp = newNode(0);
+     ListNode* ptr;
+
+     temp->val = item;
+     temp->next = NULL;
+
+     if (*root == NULL)
+        *root = temp;
+    else
+    {
+        ptr = *root;
+        while (ptr->next != NULL)
+            ptr = ptr->next;
+        ptr->next = temp;
+    }
+ }
+
+ ListNode* vectorToList (vector<int>array, int n)
+ {
+     ListNode* root = NULL;
+     for (int i=0; i<n; i++)
+     {
+         insert(&root, array[i]);
+     }
+     return root;
+ }
+
+
+class Solution 
+{
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) 
+    {
+
+        vector <int> aVec; // we will put all elements of list1 and list2 here
+        while(list1!=NULL)
+        {
+            aVec.push_back(list1->val);
+            list1 = list1 -> next;
+        }
+
+        while (list2!=NULL)
+        {
+            aVec.push_back(list2->val);
+            list2 = list2->next;
+        }
+
+        sort(aVec.begin(), aVec.end());
+
+        int n = aVec.size();
+        ListNode* root = vectorToList(aVec, n);
+        return root;
+
+    }
+};
