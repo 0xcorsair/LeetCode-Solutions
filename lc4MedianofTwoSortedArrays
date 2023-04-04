@@ -1,0 +1,44 @@
+//lc 4
+
+class Solution 
+{
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) 
+    {
+        int sizeR = nums1.size() + nums2.size();
+        vector <int> R;
+
+        for(int i=0; i<nums1.size(); i++)
+        {
+            R.push_back(nums1[i]);
+        }
+
+        for(int j=0; j<nums2.size(); j++)
+        {
+            R.push_back(nums2[j]);
+        }
+
+        sort(R.begin(),R.end());
+        /*     
+        for(int k=0; k<R.size(); k++)
+        {
+            cout<<R.at(k)<<" ";
+        }          
+        */
+        
+        double answer =0;
+        if (sizeR ==0)
+            return 0;
+            else
+            {
+                if (sizeR %2 ==0)
+                    answer =  0.5 * (R.at(sizeR / 2 - 1) + R.at(sizeR / 2));
+                    else
+                        answer = R.at(sizeR / 2);
+            }
+
+
+        return answer;
+    }
+
+};
