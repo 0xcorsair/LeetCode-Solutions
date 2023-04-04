@@ -1,2 +1,2 @@
 # LeetCode-Solutions
-This project is created to store solutions of all lc problems that I have solved.
+This repository is created to store solutions of all leetcode problems that I have solved.
