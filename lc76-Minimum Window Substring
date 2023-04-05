@@ -1,0 +1,56 @@
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution 
+{
+public:
+    string minWindow(string s, string t) 
+    {
+        unordered_map<char, int> targetChars, windowChars;
+        for (char c : t) 
+        {
+            targetChars[c]++;
+        }
+        
+        // two pooints, one left, one right
+        int left = 0, right = 0, matchCount = 0;
+        int minLeft = 0, minLength = INT_MAX;
+        
+        while (right < s.length()) 
+        {
+            char c = s[right];
+            if (targetChars.count(c)) 
+            {
+                windowChars[c]++;
+                if (windowChars[c] == targetChars[c]) 
+                {
+                    matchCount++;
+                }
+            }
+            right++;
+            
+            while (matchCount == targetChars.size()) 
+            {
+                if (right - left < minLength) 
+                {
+                    minLength = right - left;
+                    minLeft = left;
+                }
+                char c = s[left];
+                if (targetChars.count(c)) 
+                {
+                    windowChars[c]--;
+                    if (windowChars[c] < targetChars[c]) 
+                    {
+                        matchCount--;
+                    }
+                }
+                left++;
+            }
+        }
+        
+        return (minLength == INT_MAX) ? "" : s.substr(minLeft, minLength);
+    }
+};
