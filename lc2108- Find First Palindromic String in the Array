@@ -1,0 +1,22 @@
+
+
+class Solution 
+{
+public:
+    string firstPalindrome(vector<string>& words) 
+    {
+        for (int i = 0; i < words.size(); i++) 
+        {
+            string word = words[i];
+            //rbeging and rend, the reverse iterators
+            //next conditional statement means if word == its reverse
+            if (word == string(word.rbegin(), word.rend())) 
+            {
+                //return the string
+                return word;
+            }
+        }
+        //otherwise, return this, which means false
+        return "";
+    }
+};
