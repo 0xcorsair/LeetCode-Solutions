@@ -1,0 +1,42 @@
+#include<locale>
+using namespace std;
+
+class Solution 
+{
+public:
+    bool isPalindrome(string s) 
+    {
+        if (s == " ")
+            return true;
+
+        //delete the non-alphanumeric and spaces
+        int sLen = s.length();
+        string t;
+
+        for (int i=0; i<sLen; i++)
+        {
+            // if a character is alphanumeric and it is not a space
+            if (isalnum(s[i]) && s[i]!=' ')
+                t += s[i];
+        }
+
+        //convert the string to lower cases
+        
+        int j=0;
+        while (t[j])
+        {
+            t[j] = tolower(t[j]);
+            j++;
+        }
+
+        int tLen = t.length();
+        for (int k=0; k<tLen; k++)
+        {
+            if(t[k] != t[tLen-1-k])
+                return false;
+        }
+
+        return true;
+
+    }
+};
