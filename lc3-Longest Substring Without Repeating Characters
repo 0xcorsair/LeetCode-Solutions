@@ -1,0 +1,29 @@
+#include <unordered_set>
+
+class Solution 
+{
+public:
+    int lengthOfLongestSubstring(string s) 
+    {
+        int n = s.length();
+        int i = 0, j = 0, max_len = 0;
+        unordered_set<char> chars;
+        
+        while (i < n && j < n) 
+        {
+            if (chars.find(s[j]) == chars.end()) 
+            {
+                // Character not found in set, add to window
+                chars.insert(s[j++]);
+                max_len = max(max_len, j - i);
+            } 
+            else 
+            {
+                // Character found in set, remove from window
+                chars.erase(s[i++]);
+            }
+        }
+        
+        return max_len;
+    }
+};
