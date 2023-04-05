@@ -1,0 +1,54 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution 
+{
+public:
+    ListNode *detectCycle(ListNode *head) 
+    {
+        ListNode *slow = head;
+        ListNode *fast = head;
+
+        while (fast != nullptr && fast->next != nullptr) 
+        {
+            //this is still the checking if cycle exists
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) 
+            {
+                //if slow == fast, means they meet, so cycle exists
+                // now set slow to the head of linked list
+                // and slow and fast move one step at a time
+                // s0 = head of linked list
+                // s1 = where cycle begins
+                // s2 = where slow and fast meet, also where fast begins to walk in the second while loop
+                // distance between s0 and s1 = distance btw s2 and s1
+                // so when slow walks from s0 to s1, fast walks from s2 to s1
+                // they coincide at the same time, at s1, hence the solution
+
+                // At this point the tortoise position, ν, which is also equal
+                // to the distance between hare and tortoise, is divisible by
+                // the period λ. So hare moving in cycle one step at a time, 
+                // and tortoise (reset to x0) moving towards the cycle, will 
+                // intersect at the beginning of the cycle. Because the 
+                // distance between them is constant at 2ν, a multiple of λ,
+                // they will agree as soon as the tortoise reaches index μ.
+
+
+                slow = head;
+                while (slow != fast) 
+                {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return fast;
+            }
+        }
+        return nullptr;
+    }
+};
