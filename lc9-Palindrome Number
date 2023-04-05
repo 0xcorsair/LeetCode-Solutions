@@ -1,0 +1,40 @@
+#include <cstdlib>
+#include <vector>
+using namespace std;
+
+class Solution 
+{
+public:
+    bool isPalindrome(int x) 
+    {
+        //negative number obviously doesn't return true
+        if (x <0)
+            return false;
+        if (x ==0)
+            return true;
+        else
+        {
+            int y = abs(x);
+            vector <int> aVec;
+
+            while(y!=0)
+            {
+                int k = y%10;
+                aVec.push_back(k);
+                y = (y-y%10)/10;
+            }
+
+            //now we converted the int to a vector
+            //check if vector is a palindrome
+
+            int n = aVec.size();
+            for (int i=0; i<=n/2; i++)
+            {
+                if (aVec[i] != aVec[n-1-i])
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+};
