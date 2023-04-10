@@ -1,0 +1,30 @@
+class Solution 
+{
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) 
+    {
+        //create a map, first member is string, the key
+        // second member is vector of string, the list of anagrams corresponding to the key
+        unordered_map<string, vector<string>> groups;
+
+        // for all elements of strs, we extract the keys, and push associated elements into groups
+        for (const string& str : strs) 
+        {
+            string sorted_str = str; // for every element of strs
+            sort(sorted_str.begin(), sorted_str.end()); // create a key by sorting the element
+            groups[sorted_str].push_back(str); //add this element to groups, where key is sorted_str
+        }
+
+        // the result
+        vector<vector<string>> res;
+
+        // for all keys in groups
+        //p.second is a vector of strings that corresponds to key, p.first
+        for (const auto& p : groups) 
+        {
+            res.push_back(p.second);
+        }
+        
+        return res;
+    }
+};
