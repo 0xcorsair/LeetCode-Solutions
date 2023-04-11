@@ -1,0 +1,27 @@
+class Solution 
+{
+public:
+    string simplifyPath(string path) 
+    {
+        vector<string> dirs;
+        string dir;
+        stringstream ss(path); //make a stringstream ss from string path
+        
+        while (getline(ss, dir, '/')) //read from ss, stores in dir, delimiter '/'
+        {
+            if (dir == "" || dir == ".") 
+                continue;
+            if (dir == ".." && !dirs.empty()) 
+                dirs.pop_back();  // remove the last element of string dirs
+            else 
+                if (dir != "..") 
+                    dirs.push_back(dir);
+        }
+        
+        string simplifiedPath = "";
+        for (string& dir : dirs) 
+            simplifiedPath += "/" + dir; //creating the simplified path
+        
+        return simplifiedPath.empty() ? "/" : simplifiedPath;
+    }
+};
