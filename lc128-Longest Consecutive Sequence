@@ -1,0 +1,25 @@
+class Solution 
+{
+public:
+    int longestConsecutive(vector<int>& nums) 
+    {
+        //create an unordered_set with elements of nums
+        unordered_set<int> set(nums.begin(), nums.end()); 
+
+        int longestSeq = 0;
+        for (int num : nums) 
+        {
+            if (!set.count(num - 1)) { // If this element is the beginning of a sequence
+                int currSeq = 1;
+                int currNum = num;
+                while (set.count(currNum + 1)) //counting number of appearance of value currNum+1
+                {
+                    currSeq++;
+                    currNum++;
+                }
+                longestSeq = max(longestSeq, currSeq);
+            }
+        }
+        return longestSeq;
+    }
+};
