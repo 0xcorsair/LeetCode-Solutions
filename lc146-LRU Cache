@@ -1,0 +1,53 @@
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+class LRUCache 
+{
+public:
+    LRUCache(int capacity) 
+    {
+        this->capacity = capacity;
+    }
+    
+    int get(int key) 
+    {
+        auto it = cache.find(key);
+        if (it == cache.end()) 
+        {
+            return -1;
+        }
+        //move the accessed key to the front of the list
+        cacheList.splice(cacheList.begin(), cacheList, it->second);
+        return it->second->second;
+    }
+    
+    void put(int key, int value) 
+    {
+        auto it = cache.find(key);
+        if (it != cache.end()) 
+        {
+            // update the value if key already exists
+            it->second->second = value;
+            // move the accessed key to the front of the list
+            cacheList.splice(cacheList.begin(), cacheList, it->second);
+            return;
+        }
+        if (cache.size() == capacity) 
+        {
+            // remove the least recently used element
+            int keyToRemove = cacheList.back().first;
+            cacheList.pop_back();
+            cache.erase(keyToRemove);
+        }
+        // insert the new key-value pair
+        cacheList.push_front({key, value});
+        cache[key] = cacheList.begin();
+    }
+    
+private:
+    int capacity;
+    unordered_map<int, list<pair<int, int>>::iterator> cache;
+    list<pair<int, int>> cacheList;
+};
