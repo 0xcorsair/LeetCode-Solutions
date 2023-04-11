@@ -1,0 +1,75 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+#include <iostream>
+
+using namespace std;
+
+class Solution 
+{
+public:
+    ListNode* sortList(ListNode* head) 
+    {
+        // empty list, or list with one element
+        if (!head || !head->next) 
+        {
+            return head;
+        }
+
+        // find the middle of the list
+        // fast is double speed of slow
+        ListNode *slow = head, *fast = head->next;
+        while (fast && fast->next) 
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // divide the list into two halves
+        //sortList is recursive calling
+        // a divide-and-conquer approach to sort the linked list by dividing it into two halves, 
+        // sorting the two halves recursively, and then merging the sorted halves together.
+
+        ListNode *right = sortList(slow->next);
+        slow->next = nullptr;
+        ListNode *left = sortList(head);
+        
+        // merge the two sorted halves
+        // The recursive calls to sortList() are made on the two halves of the linked list 
+        // (left and right), until the base case is reached, which is when the linked list is 
+        //empty or contains only one element. At this point, the function returns the original 
+        // linked list without any further processing.
+        
+        ListNode dummy(0);
+        ListNode *tail = &dummy;
+        while (left && right) 
+        {
+            if (left->val < right->val) 
+            {
+                tail->next = left;
+                left = left->next;
+            } 
+            else 
+            {
+                tail->next = right;
+                right = right->next;
+            }
+            tail = tail->next;
+        }
+        if (left)
+            tail->next = left;
+        else
+            tail->next = right;
+
+        return dummy.next;
+    }
+};
+
