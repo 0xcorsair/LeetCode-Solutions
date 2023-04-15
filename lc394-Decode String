@@ -1,0 +1,45 @@
+
+//
+
+class Solution 
+{
+public:
+    string decodeString(string s) 
+    {
+        stack<int> nums;
+        stack<string> strs;
+        int num = 0;
+        string cur_str = "";
+        for (char c : s) 
+        {
+            if (isdigit(c)) 
+            {
+                num = num * 10 + (c - '0');
+            } 
+            else if (c == '[') 
+            {
+                nums.push(num);
+                strs.push(cur_str);
+                num = 0;
+                cur_str = "";
+            } 
+            else if (c == ']') 
+            {
+                int k = nums.top();
+                nums.pop();
+                string tmp = cur_str;
+                for (int i = 1; i < k; i++) 
+                {
+                    cur_str += tmp;
+                }
+                cur_str = strs.top() + cur_str;
+                strs.pop();
+            } 
+            else 
+            {
+                cur_str += c;
+            }
+        }
+        return cur_str;
+    }
+};
