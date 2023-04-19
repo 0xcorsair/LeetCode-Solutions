@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// this is just a basic example of binary tree search, in the way of in-order. 
+
+class Solution 
+{
+public:
+    vector<int> inorderTraversal(TreeNode* root) 
+    {
+        vector<int> result; 
+        stack<TreeNode*> s; // a stack of nodes
+        TreeNode* curr = root; // the current node is the root
+        
+        while (curr != NULL || !s.empty()) 
+        {
+            while (curr != NULL) 
+            {
+                s.push(curr); //current position is entered into the stack
+                curr = curr->left; // the current position, moving to the left
+            }
+            curr = s.top(); 
+            s.pop();
+            result.push_back(curr->val);
+            curr = curr->right;
+        }
+        
+        return result;
+    }
+};
