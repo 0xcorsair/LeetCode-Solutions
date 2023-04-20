@@ -1,0 +1,50 @@
+// Strategy is... 
+// this is just the Catalan number
+// The nth Catalan number can be expressed as:
+// sigma from k=2 to n, (n+k)/k, for all n>=0
+// 
+
+class Solution 
+{
+public:
+    int numTrees(int n) 
+    {
+        vector<int> catalan(n+1, 0);
+        catalan[0] = 1;  // empty tree
+        catalan[1] = 1;  // single node tree
+        vector<int> numerator(n+1, 1);
+        vector<int> denominator(n+1, 1);
+
+        for (int i = 2; i <= n; i++) 
+        {
+            numerator[i] = (n+i);
+            denominator[i] = (i);
+        }
+
+        for (int i=2; i<=n; i++)
+        {
+            for (int j=2; j<=n;j++)
+            {
+                if (numerator[i]%denominator[j]==0)
+                {
+                    numerator[i] /= denominator[j];
+                    denominator[j]=1;
+                }
+            }
+        }
+
+        // this part, because otherwise, overflow
+        long answer = 1; 
+        for (int i=2; i<=n; i++)
+        {
+            answer *= numerator[i];
+        }
+        for (int i=2; i<=n; i++)
+        {
+            answer /= denominator[i];
+        }
+
+
+        return answer;
+    }
+};
