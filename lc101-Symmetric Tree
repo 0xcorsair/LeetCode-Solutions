@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+ // strategy is...
+ //  Check that the left subtree's left child is symmetric with the right subtree's right child
+ // check that the left subtree of right child is symmetric with the right subtree's left child
+
+class Solution 
+{
+public:
+    bool isSymmetric(TreeNode* root) 
+    {
+        if (!root) // if empty tree, then true, ie symmetric
+        {
+            return true; 
+        }
+        return isSymmetricLR(root->left, root->right);
+    }
+    
+    bool isSymmetricLR(TreeNode* left, TreeNode* right) 
+    {
+        if (!left && !right) // Both subtrees are empty, so they're symmetric.
+        {
+            return true; 
+        }
+        if (!left || !right) // One subtree is empty and the other isn't, so they're not symmetric.
+        {
+            return false; 
+        }
+        if (left->val != right->val) // the values of the root nodes of the subtrees are different, so not 
+                                    //symmetric
+        {
+            return false; 
+        }
+        // Check that the left subtree's left child is symmetric with the right subtree's right child, etc. 
+        return isSymmetricLR(left->left, right->right) && isSymmetricLR(left->right, right->left);
+    }
+};
