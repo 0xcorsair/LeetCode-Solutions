@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+// strategy is...
+// make a list that stores everything
+// then lay all content of the list to an array 
+// that array is the answer
+
+class Solution 
+{
+public:
+    void flatten(TreeNode* root) 
+    {
+        list<TreeNode*> q;
+        flattenHelp(root, q);
+
+        // Set up a temporary node to store the previous node
+        TreeNode* prev = nullptr;
+
+        // Traverse through the nodes in the list and set up the flattened linked list
+        for (auto node : q)
+        {
+            if (prev != nullptr)
+            {
+                prev->left = nullptr;
+                prev->right = node;
+            }
+            prev = node;
+        }
+
+    }
+
+    void flattenHelp(TreeNode* root, list<TreeNode*>& q)
+    {
+        if (root == nullptr)
+        {
+            return;
+        }
+
+        q.push_back(root);
+
+        // traverse left subtree in pre-order
+        flattenHelp(root->left,q);
+    
+        // traverse right subtree in pre-order
+        flattenHelp(root->right,q);
+    }
+};
