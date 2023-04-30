@@ -1,0 +1,47 @@
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution
+{
+public:
+    vector<string> letterCombinations(string digits)
+    {
+        vector<string> result;
+
+        // special case
+        if (digits.empty())
+        {
+            return result;
+        }
+
+        vector<string> letters = 
+        { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+        //initiation of a string
+        string combination (digits.size(), ' ');
+
+        backTrack(result, letters, digits, 0, combination);
+        return result;
+
+    }
+private:
+    void backTrack(vector<string>& result, const vector<string>& letters, const string& digits, int index,
+    string &combination)
+    {
+        if (index == digits.size())
+        {
+            result.push_back(combination);
+            return;
+        }
+        string letter = letters[digits[index] - '0'];
+
+        for (char c: letter)
+        {
+            combination[index] = c;
+            backTrack(result, letters, digits, index+1, combination);
+        }
+    }
+
+};
