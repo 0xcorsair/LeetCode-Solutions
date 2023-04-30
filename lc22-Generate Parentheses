@@ -1,0 +1,36 @@
+// strategy is...
+// backtracking is the key
+
+
+class Solution 
+{
+public:
+    vector<string> generateParenthesis(int n) 
+    {
+        vector<string> res;
+        backtrack(res, "", 0, 0, n);
+        return res;
+    }
+    
+    void backtrack(vector<string>& res, string curr, int open, int close, int n) 
+    {
+        // length is 2n means 2 times the number of parentheses, i.e. the end
+        if (curr.length() == n * 2) 
+        {
+            res.push_back(curr);
+            return;
+        }
+
+        // the number of opened parentheses is smaller than n
+        if (open < n) 
+        {
+            backtrack(res, curr + "(", open + 1, close, n);
+        }
+
+        // the number of closed parentheses is smaller than opened parentheses
+        if (close < open) 
+        {
+            backtrack(res, curr + ")", open, close + 1, n);
+        }
+    }
+};
