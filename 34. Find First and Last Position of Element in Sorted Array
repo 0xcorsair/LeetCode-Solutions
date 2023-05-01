@@ -1,0 +1,49 @@
+// strategy is
+// use the two pointers thing, left and right, 
+// and converge.
+// this is a math tech. squeezing.
+
+class Solution 
+{
+public:
+    vector<int> searchRange(vector<int>& nums, int target) 
+    {
+
+        vector<int> result = {-1, -1};
+
+        // existence of solution
+        auto it = find(nums.begin(), nums.end(), target);
+        int indexFirstSln = 0;
+
+        if (it != nums.end()) 
+        {
+            indexFirstSln = distance(nums.begin(), it);
+        }
+        else 
+        {
+            return result;
+        }
+
+
+        int left = indexFirstSln;
+        int right = nums.size()-1;
+
+        while (right > left)
+        {
+            if (nums[right] > target)
+            {
+                right--;
+            }
+            else 
+            {
+                break;
+            }
+        }
+
+       
+        result[0] = left;
+        result[1] = right;
+        return result;
+        
+    }
+};
