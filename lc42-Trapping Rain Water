@@ -1,0 +1,53 @@
+// strategy is 
+//
+// the left array is 
+// pos|0|1|2|3|4|5|6|7|8|9|10|11|
+// val|0|1|1|2|2|2|2|3|3|3| 3| 3|
+//
+// the right array is
+// pos|0|1|2|3|4|5|6|7|8|9|10|11|
+// val|3|3|3|3|3|3|3|3|2|2| 2| 1|
+//
+// the intersection of two arrays, i.e. min of left[i] and right[i] is
+// pos|0|1|2|3|4|5|6|7|8|9|10|11|
+// val|0|1|1|2|2|2|2|3|2|2| 2| 1|
+// we can see, it is actually column at each i + the water depth at that i
+// 
+// so now we substract the columns, i.e. the original array
+// so we get the waters
+
+
+class Solution 
+{
+public:
+    int trap(vector<int>& height) 
+    {
+        int n = height.size();
+
+        if (n <= 2) return 0;
+        
+        vector<int> left(n), right(n);
+        left[0] = height[0];
+
+        for (int i = 1; i < n; i++) 
+        {
+            left[i] = max(left[i-1], height[i]);
+            // cout<<left[i]<<endl; 
+        }
+        // cout<<endl; 
+        right[n-1] = height[n-1];
+        for (int i = n-2; i >= 0; i--) 
+        {
+            right[i] = max(right[i+1], height[i]);
+            // out<<right[i]<<endl; 
+        }
+        // cout<<endl;
+        int ans = 0;
+        for (int i = 1; i < n-1; i++) 
+        {
+            ans += min(left[i], right[i]) - height[i];
+            //cout<<ans<<endl;
+        }
+        return ans;
+    }
+};
