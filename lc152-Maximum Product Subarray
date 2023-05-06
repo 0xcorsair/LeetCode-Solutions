@@ -1,0 +1,33 @@
+// may 5
+//
+// 
+
+
+#include <algorithm>
+
+
+class Solution 
+{
+public:
+    int maxProduct(vector<int>& nums) 
+    {
+        int n = nums.size();
+        int max_so_far = nums[0]; // max product so far
+        int min_so_far = nums[0]; // min product so far (can be negative)
+        int ans = max_so_far; // answer
+
+        for (int i = 1; i < n; ++i) 
+        {
+            int num = nums[i];
+
+            // update max_so_far and min_so_far
+            int prev_max = max_so_far;
+            max_so_far = max({num, prev_max * num, min_so_far * num});
+            min_so_far = min({num, prev_max * num, min_so_far * num});
+
+            // update ans
+            ans = max(ans, max_so_far);
+        }
+        return ans;
+    }
+};
