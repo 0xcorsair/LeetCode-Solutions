@@ -1,0 +1,52 @@
+// may 6
+//
+//
+
+
+
+class Solution 
+{
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
+    {
+        vector<vector<int>> adj(numCourses);
+        vector<int> indegrees(numCourses);
+        
+        // build adjacency list and compute indegrees of all nodes
+        for (const auto& prereq : prerequisites) 
+        {
+            adj[prereq[1]].push_back(prereq[0]);
+            indegrees[prereq[0]]++;
+        }
+        
+        queue<int> q;
+        int visited = 0;
+        
+        // add nodes with indegree 0 to the queue
+        for (int i = 0; i < numCourses; i++) 
+        {
+            if (indegrees[i] == 0) {
+                q.push(i);
+            }
+        }
+        
+        // BFS
+        while (!q.empty()) 
+        {
+            int node = q.front();
+            q.pop();
+            visited++;
+            
+            for (const auto& neighbor : adj[node]) 
+            {
+                indegrees[neighbor]--;
+                if (indegrees[neighbor] == 0) 
+                {
+                    q.push(neighbor);
+                }
+            }
+        }
+        
+        return visited == numCourses;
+    }
+};
