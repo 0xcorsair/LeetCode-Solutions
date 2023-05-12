@@ -1,0 +1,37 @@
+// may 11
+//
+//
+
+class Solution 
+{
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) 
+    {
+        unordered_map<int, int> freq;  // store frequency of each element
+        priority_queue<pair<int, int>> pq;  // store element-frequency pairs in descending order
+        
+        // count frequency of each element
+        for (int num : nums) 
+        {
+            freq[num]++;
+        }
+        
+        // insert element-frequency pairs into priority queue
+        for (auto it = freq.begin(); it != freq.end(); ++it) 
+        {
+            pq.push(make_pair(it->second, it->first));
+        }
+        
+        // extract top k frequent elements from priority queue
+        vector<int> res;
+        while (k > 0) 
+        {
+            res.push_back(pq.top().second);
+            pq.pop();
+            k--;
+        }
+        
+        return res;
+    }
+};
+
