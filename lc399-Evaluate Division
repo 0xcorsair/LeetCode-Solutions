@@ -1,0 +1,61 @@
+// may 9
+//
+//
+
+
+
+class Solution 
+{
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) 
+    {
+        unordered_map<string, unordered_map<string, double>> graph;
+        
+        // Build the graph
+        for (int i = 0; i < equations.size(); i++) 
+        {
+            string u = equations[i][0];
+            string v = equations[i][1];
+            double val = values[i];
+            graph[u][v] = val;
+            graph[v][u] = 1.0 / val;
+        }
+        
+        // Evaluate queries
+        vector<double> results;
+        for (const auto& query : queries) 
+        {
+            string u = query[0];
+            string v = query[1];
+            if (!graph.count(u) || !graph.count(v)) 
+            {
+                results.push_back(-1.0);
+                continue;
+            }
+            unordered_set<string> visited;
+            double val = dfs(u, v, graph, visited);
+            results.push_back(val);
+        }
+        
+        return results;
+    }
+    
+private:
+    double dfs(const string& u, const string& v, unordered_map<string, unordered_map<string, double>>& graph, unordered_set<string>& visited) 
+    {
+        if (u == v) return 1.0;
+        visited.insert(u);
+        for (const auto& neighbor : graph[u]) 
+        {
+            const string& w = neighbor.first;
+            const double& weight = neighbor.second;
+            if (visited.count(w)) continue;
+            double val = dfs(w, v, graph, visited);
+            if (val > 0) 
+            {
+                return weight * val;
+            }
+        }
+        return -1.0;
+    }
+};
