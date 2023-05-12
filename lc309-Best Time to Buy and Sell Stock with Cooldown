@@ -1,0 +1,44 @@
+// may 11
+//
+//
+
+
+class Solution 
+{
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+        int n = prices.size();
+        if (n <= 1) return 0;
+
+        // three vectors buying, selling, resting
+        // each vector is a function of time i
+        // such that v[i] is the profit as of now
+        // buy[i] is the profit as of now, if today (i-th time) we buy
+        vector<int> buy(n), sell(n), rest(n);
+        buy[0] = -prices[0]; // first action can only be buy
+        sell[0] = rest[0] = 0;
+        for (int i = 1; i < n; i++) 
+        {
+            // if on (i-1)-th day, it was cooldown
+            // then buy[i], the profit as of i-th day if today's action is a buy,
+            // is = rest[i-1] - prices [i]
+            // the alternative is that we take the value of buy[i-1]
+            // it means we do no nothing today, so we keep the same value as yesterday 
+            buy[i] = max(rest[i-1] - prices[i], buy[i-1]);
+            cout<<buy[i]<<endl; //
+
+            // The profit from selling today comes from the profit from buying yesterday
+            // plus the price of selling today.
+            sell[i] = max(buy[i-1] + prices[i], sell[i-1]);
+             cout<<sell[i]<<endl; //
+
+            // either i do nothing yesterday, or i sold something yesterday
+            rest[i] = max(rest[i-1], sell[i-1]);
+             cout<<rest[i]<<endl<<endl;//
+        }
+        // The best profit can only come from selling or doing nothing on the last day.
+        // but never from buy
+        return max(sell[n-1], rest[n-1]);
+    }
+};
