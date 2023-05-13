@@ -1,0 +1,27 @@
+//may 12
+//
+//
+
+class Solution 
+{
+public:
+    int maxProfit(vector<int>& prices, int fee) 
+    {
+        int n = prices.size();
+
+        // profit if we hold the stock at index 0
+        int hold = -prices[0]; 
+
+        // profit if we sell the stock at index 0
+        int sold = 0;
+
+        for(int i = 1; i < n; i++)
+        {
+            int prevHold = hold;
+            hold = max(hold, sold - prices[i]);
+            sold = max(sold, prevHold + prices[i] - fee);
+        }
+        
+        return sold;
+    }
+};
