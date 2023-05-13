@@ -1,0 +1,58 @@
+// may 12
+//
+//
+
+
+
+class Solution 
+{
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) 
+    {
+        const int INF = 1e9; // initialize all distances as infinity
+        vector<vector<pair<int,int>>> adjList(n+1); // adjacency list for weighted directed graph
+        vector<int> dist(n+1, INF); // distance array to store shortest distances from k to all nodes
+        // min-heap priority queue for Dijkstra's algorithm
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq; 
+
+        // construct adjacency list
+        for(auto time : times)
+        {
+            int u = time[0];
+            int v = time[1];
+            int w = time[2];
+            adjList[u].push_back({v, w});
+        }
+
+        // Dijkstra's algorithm
+        dist[k] = 0;
+        pq.push({0, k});
+        while(!pq.empty())
+        {
+            int u = pq.top().second;
+            pq.pop();
+            for(auto edge : adjList[u])
+            {
+                int v = edge.first;
+                int w = edge.second;
+                if(dist[u] + w < dist[v])
+                {
+                    dist[v] = dist[u] + w;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+
+        // check if all nodes are reachable and return maximum delay time
+        int maxDelay = 0;
+        for(int i = 1; i <= n; i++)
+        {
+            if(dist[i] == INF)
+            {
+                return -1; // some nodes are not reachable
+            }
+            maxDelay = max(maxDelay, dist[i]);
+        }
+        return maxDelay;
+    }
+};
