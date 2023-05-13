@@ -1,0 +1,43 @@
+// may 12
+//
+//
+
+
+class Solution 
+{
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) 
+    {
+        int n = points.size();
+        vector<int> dist(n, INT_MAX); // initialize all distances as infinity
+        vector<bool> visited(n, false); // array to mark visited nodes
+        int cost = 0;
+
+        // start with node 0 and update distances to all other nodes
+        dist[0] = 0;
+        for(int i = 0; i < n; i++)
+        {
+            int u = -1;
+            for(int j = 0; j < n; j++)
+            {
+                if(!visited[j] && (u == -1 || dist[j] < dist[u]))
+                {
+                    u = j; // find the unvisited node with smallest distance
+                }
+            }
+            visited[u] = true; // mark node as visited
+            cost += dist[u]; // add distance to total cost
+            for(int v = 0; v < n; v++)
+            {
+                if(!visited[v])
+                {
+                    // calculate distance between u and v
+                    int w = abs(points[u][0] - points[v][0]) + abs(points[u][1] - points[v][1]); 
+                    dist[v] = min(dist[v], w); // update distance if smaller
+                }
+            }
+        }
+
+        return cost;
+    }
+};
