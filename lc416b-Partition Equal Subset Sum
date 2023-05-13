@@ -1,0 +1,40 @@
+// may 9
+//
+//
+
+#include <numeric> // for std::accumulate
+
+
+class Solution 
+{
+public:
+bool canPartition(std::vector<int>& nums) 
+{
+    // calculate the sum of all elements of vector nums
+    int sum = std::accumulate(nums.begin(), nums.end(), 0); 
+
+    if (sum % 2 != 0) 
+    {
+        //if the sum of array is odd, it can not be divided into two equal parts
+        return false;
+    }
+    int target = sum / 2;
+
+    // a vector of booleans, all initialized to false
+    std::vector<bool> dp(target+1, false);
+
+    dp[0] = true;
+
+    for (int item : nums) 
+    {
+        // going backward. from target to item
+        for (int i = target; i >= item; i--) 
+        {
+            dp[i] = dp[i] || dp[i-item];
+            // this shows what it does
+            // cout<<"i = "<<i<<" dp[i] = "<<dp[i]<<endl; 
+        }
+    }
+    return dp[target];
+}
+};
