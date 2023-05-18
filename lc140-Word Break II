@@ -1,0 +1,42 @@
+// may 17
+//
+
+class Solution 
+{
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) 
+    {
+    unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+    unordered_map<int, vector<string>> memo;
+    return wordBreakHelper(s, wordSet, 0, memo);
+    }
+
+    vector<string> wordBreakHelper(string s, unordered_set<string>& wordSet, int start, unordered_map<int,vector<string>>& memo) 
+    {
+        if (memo.count(start)) return memo[start];
+
+        vector<string> result;
+        if (start == s.length()) 
+        {
+            result.push_back("");
+        } 
+        else 
+        {
+            for (int end = start + 1; end <= s.length(); end++) 
+            {
+                string word = s.substr(start, end - start);
+                if (wordSet.count(word)) 
+                {
+                    vector<string> subResult = wordBreakHelper(s, wordSet, end, memo);
+                    for (string sub : subResult) 
+                    {
+                        result.push_back(word + (sub.empty() ? "" : " ") + sub);
+                    }
+                }
+            }
+        }
+
+        memo[start] = result;
+        return result;
+    }
+};
